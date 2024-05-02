@@ -11,25 +11,61 @@ import relation from "../../Components/lottie/relation.json";
 import fitness from "../../Components/lottie/fitness.json";
 import cleaning from "../../Components/lottie/cleaning.json";
 import career from "../../Components/lottie/career.json";
+import TaskCard from "./Components/TaskCard";
+import WeekTaskTable from "./Components/weekTaskTable";
+import { StickyNavbar } from "../../Components/Nav/Navbar";
 
 const HomePage = () => {
+  const [name, setname] = useState("");
+  const [greetings, setgreeting] = useState("");
+
   const [taskData, settaskData] = useState([]);
-  console.log(taskData);
+
   useEffect(() => {
+    const getuser = () => {
+      const username = localStorage.getItem("user");
+      setname(username);
+    };
     const FunctiongetTask = async () => {
       const data = await GetReq("task/");
-      settaskData(data);
+      settaskData(data.not_done);
     };
+    function getGreeting() {
+      const currentDate = new Date();
+      const currentHour = currentDate.getHours();
+
+      let greeting;
+
+      if (currentHour >= 5 && currentHour < 12) {
+        greeting = "Good morning!";
+      } else if (currentHour >= 12 && currentHour < 18) {
+        greeting = "Good afternoon!";
+      } else if (currentHour >= 18 && currentHour < 22) {
+        greeting = "Good evening!";
+      } else {
+        greeting = "Hello!";
+      }
+
+      return greeting;
+    }
+
+    // Example usage:
+    const greeting = getGreeting();
+    setgreeting(greeting);
     FunctiongetTask();
+    getuser();
   }, []);
+  console.log(name);
   return (
-    <div className="w-full min-h-screen bg-gradient-to-t from-cyan-200 to-slate-50 relative flex justify-center  ">
+    <div className="w-full min-h-screen bg-gradient-to-t from-cyan-200 to-slate-50 relative flex justify-center  flex-col">
+      <StickyNavbar />
       <div className="flex  flex-col gap-2 z-10 px-24 py-10 w-full">
         <div className=" border-2 border-blue-100 px-7 py-3 border-dashed w-full rounded-xl    relative ">
           {/* <Lottie animationData={Wave_2} /> */}
           <h1 className="font-black text-3xl poppins-bold">
-            Hello user Welcome to the app
+            Hello {name.toLocaleUpperCase()},
           </h1>
+          <h1 className="font-black text-3xl poppins-bold">{greetings}</h1>
           {/* <Link className="flex bg-blue-100 w-32 px-3 py-2 shadow">
             Start{" "}
             
@@ -52,42 +88,7 @@ const HomePage = () => {
           <div className="mt-9">
             {taskData.map((e) => (
               <>
-                <div className="border-b-2  pb-5 mt-4">
-                  <h1 className="font-bold text-2xl">{e.task}</h1>
-
-                  <div className="flex gap-2">
-                    <h1 className="bg-red-200 px-3 text-sm font-semibold py-1 rounded-full  mt-3">
-                      20{" mins "}
-                    </h1>
-                    <p className="bg-green-200  px-3 py-1 rounded-full text-sm font-semibold mt-3">
-                      Reward : {e.reward}
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="ml-4 mt-5 ">
-                      <ul className="list-disc">
-                        <li>Discrition 1</li>
-                        <li>Discrition 1</li>
-                        <li>Discrition 1s</li>
-                      </ul>
-                    </div>
-
-                    {/* <Lottie animationData={learning} className="" /> */}
-                  </div>
-                  <div className="flex mt-2">
-                    {/* <Button
-                      variant="gradient"
-                      color="light-green"
-                      // className="rounded-full"
-                    >
-                      I'm Done
-                    </Button> */}
-                    <button className="bg-green-100 text-green-500 px-7 py-2">
-                      {" "}
-                      I'm Done
-                    </button>
-                  </div>
-                </div>
+                <TaskCard task={e} />
               </>
             ))}
           </div>
@@ -109,7 +110,7 @@ const HomePage = () => {
           </div>
         </div>
         {/* weekly task section  */}
-        <div className="w-full flex flex-col bg-white rounded-xl shadow px-7 py-3 mt-5 min-h-80 justify-between"></div>
+        <WeekTaskTable />
       </div>
       <Lottie animationData={Wave} className=" absolute bottom-0 w-full " />
     </div>

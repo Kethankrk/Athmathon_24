@@ -59,8 +59,11 @@ export function LoginCard() {
                 image: criderntial.picture,
                 username: criderntial.name,
               };
+
               const response = await PostReq("auth/", data);
-              console.log(response);
+              // console.log(response);
+              localStorage.setItem("user", criderntial.name);
+              localStorage.setItem("image", criderntial.picture);
               localStorage.setItem("token", response.access);
               navigate("/home");
             }}
