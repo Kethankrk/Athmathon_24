@@ -7,6 +7,7 @@ import {
   IconButton,
   Card,
 } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 
 export function StickyNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -49,7 +50,7 @@ export function StickyNavbar() {
         <a href="#" className="flex items-center">
           Blocks
         </a>
-      </Typography> */}
+      </Typography>
       <Typography
         as="li"
         variant="small"
@@ -59,7 +60,7 @@ export function StickyNavbar() {
         <a href="#" className="flex items-center">
           Docs
         </a>
-      </Typography>
+      </Typography> */}
     </ul>
   );
   const [image, setimage] = useState("");
@@ -80,8 +81,16 @@ export function StickyNavbar() {
         >
           D3v.peace
         </Typography>
-        <div className="">
-          <img src={image} alt="test" className="w-12 rounded-full" />
+
+        <div className=" flex gap-5 items-center">
+          <div className="flex font-semibold gap-5">
+            <Link to="/home">Home</Link>
+            <Link to="community">Community</Link>
+          </div>
+          <Link to="/home/profile">
+            {" "}
+            <img src={image} alt="test" className="w-12 rounded-full" />
+          </Link>
         </div>
         {/* <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block">{navList}</div>

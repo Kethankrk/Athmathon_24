@@ -12,17 +12,23 @@ const TaskCard = ({ task }) => {
   const completeTask = async (id) => {
     setcompletePop(true);
     const res = await PatchReq("task/", { id });
-    console.log(res);
+
     setTimeout(function () {
       setcompletePop(false);
+      SetTrigger(trigger ? false : true);
     }, 3000);
-    SetTrigger(trigger ? false : true);
   };
 
   const connectAi = async (task) => {
     const data = {
       contents: [
-        { parts: [{ text: `Give four tips for ${task} in an array` }] },
+        {
+          parts: [
+            {
+              text: `Give four tips for ${task} , tips are separated by "," and put them in a array "[]" `,
+            },
+          ],
+        },
       ],
     };
 
@@ -35,6 +41,7 @@ const TaskCard = ({ task }) => {
       { headers }
     );
     const response = res.data.candidates;
+    console.log(response);
     if (response) {
       if (response[0].content) {
         setTips(response[0].content.parts);
@@ -88,7 +95,8 @@ const TaskCard = ({ task }) => {
                   />
                 </g>
               </svg>
-              20{" mins "}
+              {task.expire_min}
+              {" mins "}
             </h1>
             <p className="bg-green-200  px-3 py-1 rounded-full text-sm font-semibold mt-3">
               Reward : {task.reward}
@@ -141,12 +149,9 @@ const TaskCard = ({ task }) => {
           {Tips ? (
             <div>
               <h1>Tips</h1>
-              {Tips[0].text
-                .split("-")
-                .slice(1)
-                .map((e) => (
-                  <li>{e}</li>
-                ))}
+              {JSON.parse(Tips[0].text).map((e) => (
+                <li>{e}</li>
+              ))}
             </div>
           ) : (
             <></>

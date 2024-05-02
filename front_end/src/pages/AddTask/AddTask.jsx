@@ -2,7 +2,7 @@ import React from "react";
 import Wave from "../../Components/lottie/wave-anime.json";
 import taskanime from "../../Components/lottie/task.json";
 import Lottie from "lottie-react";
-import { Button, Textarea } from "@material-tailwind/react";
+import { Button, Option, Select, Textarea } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
 const AddTask = ({ change_screen, Setstate, task }) => {
@@ -21,6 +21,18 @@ const AddTask = ({ change_screen, Setstate, task }) => {
               Setstate((prev) => ({ ...prev, task: e.target.value }));
             }}
           ></Textarea>
+          <Select
+            label="Duration"
+            onChange={(e) => {
+              Setstate((prev) => ({ ...prev, expire: e }));
+            }}
+          >
+            <Option value="10">10 mins</Option>
+            <Option value="20">20 mins</Option>
+            <Option value="30">30 mins</Option>
+            <Option value="45">45 mins</Option>
+            <Option value="60">60 mins</Option>
+          </Select>
           <Button
             className="mt-3"
             variant="gradient"

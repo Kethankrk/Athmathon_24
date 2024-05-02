@@ -1,5 +1,5 @@
 import { GoogleLogin } from "@react-oauth/google";
-import React from "react";
+import React, { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import Lottie from "lottie-react";
 import Wave from "../../Components/lottie/wave-anime.json";
@@ -36,6 +36,14 @@ export default LoginScreen;
 
 export function LoginCard() {
   const navigate = useNavigate();
+  useEffect(() => {
+    const userCheck = () => {
+      if (localStorage.getItem("token")) {
+        navigate("/home");
+      }
+    };
+    userCheck();
+  }, []);
 
   return (
     <Card className="w-96 z-10">
@@ -62,7 +70,7 @@ export function LoginCard() {
               };
 
               const response = await axios.post(
-                "http://192.168.1.29:8000/auth/",
+                "http://192.168.208.190:8000/auth/",
                 data
               );
               // console.log(response.data);

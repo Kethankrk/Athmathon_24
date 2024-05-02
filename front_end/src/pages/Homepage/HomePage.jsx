@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Wave from "../../Components/lottie/wave-anime.json";
 import Lottie from "lottie-react";
 import { Button, useSelect } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GetReq, PatchReq } from "../../HelperFunction/PostFunction";
 
@@ -23,7 +23,10 @@ const HomePage = () => {
   const [name, setname] = useState("");
   const [greetings, setgreeting] = useState("");
 
-  const [taskData, settaskData] = useState();
+  const [taskData, settaskData] = useState([]);
+  const [taskDataComplete, settaskDataComplete] = useState([]);
+  const lastlog = localStorage.getItem("time");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getuser = () => {
@@ -33,7 +36,17 @@ const HomePage = () => {
     const FunctiongetTask = async () => {
       const data = await GetReq("task/");
       // console.log(data);
-      settaskData(data.not_done);
+      if (data) {
+        settaskData(data.not_done);
+      }
+    };
+    const FunctiongetTaskComplete = async () => {
+      const data = await GetReq("task/");
+      // console.log(data);
+      if (data) {
+        console.log(data.done);
+        settaskDataComplete(data.done.reverse());
+      }
     };
     function getGreeting() {
       const currentDate = new Date();
@@ -58,9 +71,33 @@ const HomePage = () => {
     const greeting = getGreeting();
     setgreeting(greeting);
     FunctiongetTask();
+    FunctiongetTaskComplete();
     getuser();
   }, [trigger]);
-  console.log(name);
+
+  const navTask = () => {
+    // Retrieve the last logged time from wherever it's stored
+    const lastLogString = localStorage.getItem("lastLog");
+
+    // Convert the stored string back to a Date object
+    const lastLog = lastLogString ? new Date(lastLogString) : null;
+
+    if (lastLog) {
+      // Calculate the time difference in milliseconds
+      const currentTime = new Date();
+      const timeDiffMilliseconds = currentTime - lastLog;
+
+      // Convert milliseconds to hours
+      const timeDiffHours = timeDiffMilliseconds / (1000 * 60 * 60);
+      if (timeDiffHours >= 4) {
+        navigate("addemo");
+      } else {
+        navigate("addcat");
+      }
+    }
+
+    navigate("addemo");
+  };
   return (
     <>
       <div className="flex  flex-col gap-2 z-10 px-24 py-10 w-full">
@@ -74,16 +111,16 @@ const HomePage = () => {
             Start{" "}
             
           </Link> */}
-          <Link to="addemo">
-            <Button
-              variant="gradient"
-              color="light-blue"
-              size="sm"
-              className="text-xl flex gap-2 items-center mt-3"
-            >
-              Start
-            </Button>
-          </Link>
+
+          <Button
+            onClick={() => navTask()}
+            variant="gradient"
+            color="light-blue"
+            size="sm"
+            className="text-xl flex gap-2 items-center mt-3"
+          >
+            Start
+          </Button>
         </div>
         {/* Daily task section */}
         <div className="w-full flex flex-col bg-white rounded-xl shadow px-7 py-3 mt-5 min-h-80 justify-between">
@@ -91,13 +128,29 @@ const HomePage = () => {
 
           <div className="mt-9">
             {taskData ? (
-              taskData.map((e) => (
-                <>
-                  <TaskCard task={e} />
-                </>
-              ))
+              taskData.length != 0 ? (
+                taskData.map((e) => (
+                  <>
+                    <TaskCard task={e} />
+                  </>
+                ))
+              ) : (
+                <Loading />
+              )
             ) : (
-              <Loading />
+              <div className="flex flex-col w-full">
+                <h1 className="font-bold">It's empty , Add your emotion.</h1>
+                <Link to="addemo">
+                  <Button
+                    variant="gradient"
+                    color="light-blue"
+                    size="sm"
+                    className="text-xl flex gap-2 items-center mt-3"
+                  >
+                    Start
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
           <div className="flex flex-col items-center">
@@ -118,7 +171,7 @@ const HomePage = () => {
           </div>
         </div>
         {/* weekly task section  */}
-        <WeekTaskTable />
+        <WeekTaskTable task={taskDataComplete} />
       </div>
     </>
   );

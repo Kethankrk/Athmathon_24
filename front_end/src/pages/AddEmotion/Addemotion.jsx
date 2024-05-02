@@ -22,6 +22,7 @@ const Addemotion = () => {
     const res = await PostReq("emotion/", { emotion: emotion });
     if (res) {
       navigate("/home/addcat");
+      localStorage.setItem("lastLog", new Date().toString());
     }
   };
   const activeSelect = (curr) => {

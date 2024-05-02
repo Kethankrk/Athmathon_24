@@ -28,6 +28,7 @@ export default function App() {
     {
       path: "/home",
       element: <Layout />,
+      errorElement: <h1>404</h1>,
       children: [
         {
           path: "",
@@ -57,6 +58,7 @@ export default function App() {
           ],
         },
         { path: "profile", element: <ProfilePage /> },
+        { path: "profile/:id", element: <ProfilePage /> },
       ],
     },
   ]);

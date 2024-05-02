@@ -4,7 +4,7 @@ import Wave from "../../Components/lottie/wave-anime.json";
 import LeaderBoardCard from "../../Components/leaderBoardCard";
 import { Card, Typography } from "@material-tailwind/react";
 import TopThreeCard from "../../Components/topThree";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GetReq } from "../../HelperFunction/PostFunction";
 
 function ComunityPage() {
@@ -44,6 +44,7 @@ function ComunityPage() {
             postion={index + 1}
             key={index}
             image={user.image}
+            id={user.id}
           />
         ))}
       </div>
@@ -51,6 +52,7 @@ function ComunityPage() {
         {data.users.length > 3 &&
           data.users.map((user, index) => (
             <LeaderBoardCard
+              id={user.id}
               name={user.username}
               key={index}
               position={index + 1}
