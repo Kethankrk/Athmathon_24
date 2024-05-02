@@ -15,6 +15,7 @@ const ComunityList = () => {
       console.log(error);
     }
   };
+
   return (
     <div className="flex flex-col py-3 px-3 z-20 min-h-screen">
       <div className="">
