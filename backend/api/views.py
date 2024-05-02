@@ -163,11 +163,16 @@ class communityView(APIView):
 
 class userProfileView(APIView):
 
+
     def get(self, request, *args, **kwargs):
         try:
             user_id = request.query_params.get('id')
+            is_mine = request.query_params.get("my")
 
-            user_profile = models.User.objects.prefetch_related('profile').get(id=user_id).profile
+            if is_mine:
+                user_profile = models.User.objects.prefetch_related('profile').get(id=request.user.id).profile
+            else:
+                user_profile = models.User.objects.prefetch_related('profile').get(id=user_id).profile
 
             serializer = serial.userProfileSerializer(user_profile)
             return Response(serializer.data)

@@ -75,6 +75,10 @@ class communitySerializer(serializers.ModelSerializer):
         return instance.users.count()
 
 class userProfileSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField("get_username")
     class Meta:
         model = Profile
-        fields = "__all__"
+        fields = ['image', 'github', 'id', 'points', 'username']
+    
+    def get_username(self, profile):
+        return profile.user.username
