@@ -47,6 +47,7 @@ export function LoginCard() {
 
   return (
     <Card className="w-96 z-10">
+      <h1 className="text-center mt-5 font-semibold text-xl"> Sign In</h1>
       <CardBody className="flex flex-col gap-4">
         <Input label="Email" size="lg" />
         <Input label="Password" size="lg" />
