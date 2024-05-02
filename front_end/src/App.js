@@ -10,7 +10,7 @@ import AddTask from "./pages/AddTask/AddTask";
 import SelectReward from "./pages/SelectReward/SelectReward";
 import Addreward from "./pages/SelectReward/SelectReward";
 import Task from "./pages/Task/Task";
-
+import ComunityPage from "./pages/Comunity/comunityPage";
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -40,6 +40,10 @@ export default function App() {
     {
       path: "/reward",
       element: <Addreward />,
+    },
+    {
+      path: "/community",
+      element: <ComunityPage />,
     },
   ]);
   const client_id =
