@@ -7,4 +7,5 @@ urlpatterns = [
     path("emotion/", views.emotionApiView.as_view()),
     path("community/", views.communityView.as_view()),
     path("profile/", views.userProfileView.as_view()),
+    path("delete-task/", views.deleteTaskView.as_view()),
 ]

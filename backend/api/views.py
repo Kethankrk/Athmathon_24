@@ -201,4 +201,17 @@ class userProfileView(APIView):
         except Exception as e:
             print(e)
             return Response({"error": "Server error"}, status=500)
-    
+
+
+class deleteTaskView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            user = request.user
+            task_id = request.data['id']
+            task = models.Task.objects.get(id=task_id)
+            task.delete()
+            return Response({"message": "success"})
+        
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
