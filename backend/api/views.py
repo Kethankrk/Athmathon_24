@@ -69,7 +69,11 @@ class taskView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             user_id = request.user.id
-            taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.all()
+            category = request.query_params.get("category", None)
+            if category:
+                taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(category=category)
+            else:
+                taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.all()
             serializer = serial.taskSerializer(taskes, many=True)
             return Response(serializer.data)
         except Exception as e:
