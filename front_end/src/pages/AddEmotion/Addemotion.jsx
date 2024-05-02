@@ -17,29 +17,41 @@ import { useNavigate } from "react-router-dom";
 const Addemotion = () => {
   const navigate = useNavigate();
   const [emotion, setemotion] = useState();
+  const [active, setactive] = useState();
   const Next = async () => {
     const res = await PostReq("emotion/", { emotion: emotion });
     if (res) {
       navigate("/addcat");
     }
   };
+  const activeSelect = (curr) => {
+    if (active) {
+      active.classList.remove("bg-blue-50");
+    }
+    curr.classList.add("bg-blue-50");
+    setactive(curr);
+  };
   return (
     <div className="w-full min-h-screen bg-gradient-to-t from-cyan-200 to-slate-50 relative flex  flex-col justify-center items-center ">
       <div className="flex flex-wrap z-10 gap-3 justify-center">
         <div className="" onClick={() => setemotion("H")}>
-          <EmoCard anime={happy} name={"Happy"} />
+          <EmoCard anime={happy} name={"Happy"} setactive={activeSelect} />
         </div>
         <div className="" onClick={() => setemotion("A")}>
-          <EmoCard anime={stress} name={"Anxious"} />
+          <EmoCard anime={stress} name={"Anxious"} setactive={activeSelect} />
         </div>
         <div className="" onClick={() => setemotion("ST")}>
-          <EmoCard anime={axi} name={"Stressed"} />
+          <EmoCard anime={axi} name={"Stressed"} setactive={activeSelect} />
         </div>
         <div className="" onClick={() => setemotion("S")}>
-          <EmoCard anime={sad} name={"Sad"} />
+          <EmoCard anime={sad} name={"Sad"} setactive={activeSelect} />
         </div>
         <div className="" onClick={() => setemotion("D")}>
-          <EmoCard anime={depress} name={"Depressed"} />
+          <EmoCard
+            anime={depress}
+            name={"Depressed"}
+            setactive={activeSelect}
+          />
         </div>
       </div>
       <div className=" z-10 mt-4">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Wave from "../../Components/lottie/wave-anime.json";
 import Lottie from "lottie-react";
 import learning from "../../Components/lottie/learning.json";
@@ -16,11 +16,21 @@ import { useNavigate } from "react-router-dom";
 const Select_Category = ({ change_screen, Setstate, task }) => {
   const [cat, setcat] = useAtom(taskAtom);
   const navigate = useNavigate();
+  const [activeCard, setactiveCard] = useState(null);
   const next = async () => {
     if (cat != 0) {
       navigate("/addtask");
     }
   };
+
+  const activeSelect = (curr) => {
+    if (activeCard) {
+      activeCard.classList.remove("bg-blue-50");
+    }
+    curr.classList.add("bg-blue-50");
+    setactiveCard(curr);
+  };
+  console.log(activeCard);
   return (
     <>
       <div className="flex flex-wrap z-10 gap-3 justify-center">
@@ -28,31 +38,43 @@ const Select_Category = ({ change_screen, Setstate, task }) => {
           className=""
           onClick={() => Setstate((prev) => ({ ...prev, category: "L" }))}
         >
-          <EmoCard anime={learning} name={"Learning"} />
+          <EmoCard
+            anime={learning}
+            name={"Learning"}
+            setactive={activeSelect}
+          />
         </div>
         <div
           className=""
           onClick={() => Setstate((prev) => ({ ...prev, category: "C" }))}
         >
-          <EmoCard anime={cleaning} name={"Cleaning"} />
+          <EmoCard
+            anime={cleaning}
+            name={"Cleaning"}
+            setactive={activeSelect}
+          />
         </div>
         <div
           className=""
           onClick={() => Setstate((prev) => ({ ...prev, category: "H" }))}
         >
-          <EmoCard anime={fitness} name={"Fitness"} />
+          <EmoCard anime={fitness} name={"Fitness"} setactive={activeSelect} />
         </div>
         <div
           className=""
           onClick={() => Setstate((prev) => ({ ...prev, category: "R" }))}
         >
-          <EmoCard anime={relation} name={"Relation"} />
+          <EmoCard
+            anime={relation}
+            name={"Relation"}
+            setactive={activeSelect}
+          />
         </div>
         <div
           className=""
           onClick={() => Setstate((prev) => ({ ...prev, category: "CA" }))}
         >
-          <EmoCard anime={career} name={"Career"} />
+          <EmoCard anime={career} name={"Career"} setactive={activeSelect} />
         </div>
       </div>
       <div className=" z-10 mt-4">
