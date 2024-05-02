@@ -51,6 +51,9 @@ class Emotions(models.Model):
     user = models.ForeignKey(User, related_name="emotions", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.user.username
+
 class Task(models.Model):
     categories = {
         "L": "Learning",
@@ -69,6 +72,11 @@ class Task(models.Model):
     category = models.CharField(max_length=10, choices=categories, default=categories['L'])
 
 
+    def __str__(self) -> str:
+        return self.task
+
+
 
 class Community(models.Model):
     users = models.ManyToManyField(User)
+    
