@@ -1,14 +1,12 @@
 from rest_framework import serializers
-from .models import User, Profile
+from .models import User, Profile, Emotions
 from django.db import transaction
 
 
 class userSerializer(serializers.ModelSerializer):
-    # image = serializers.SerializerMethodField('profile_image')
-
 
     def create(self, validated_data):
-        with transaction.atomic:
+        with transaction.atomic():
             user, created = User.objects.get_or_create(email=validated_data['email'], username=validated_data['username'])
             if not created:
                 return user
@@ -17,11 +15,13 @@ class userSerializer(serializers.ModelSerializer):
             profile.save()
 
             return user
-        
+    image = serializers.URLField()
     class Meta:
         model = User
         fields = ['email', 'username', 'image']
     
-    # def profile_image(self, user):
-    #     image = user.profile.image
-    #     return image
+
+class emotionSerializer:
+    class Meta:
+        model = Emotions
+        fields = ["user", "emotion"]

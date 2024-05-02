@@ -36,4 +36,18 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self
+        return self.user.email
+
+
+class Emotions(models.Model):
+    emotions = {
+        "H": "Happy",
+        "S": "Sad",
+        "A": "Anxious",
+        "E": "Energetic",
+        "T": "Tired",
+        "B": "Bored",
+    }
+    emotion = models.CharField(max_length=9, choices=emotions)
+    user = models.ForeignKey(User, related_name="emotions", on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
