@@ -43,7 +43,7 @@ export default function App() {
         },
 
         {
-          path: "comunity",
+          path: "community",
           element: <CommunityLayout />,
           children: [
             {

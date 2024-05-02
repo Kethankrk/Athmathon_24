@@ -1,11 +1,19 @@
 import { Button, Input } from "@material-tailwind/react";
 import axios from "axios";
-import React, { useState } from "react";
-import { GetReq } from "../../../HelperFunction/PostFunction";
+import React, { useEffect, useState } from "react";
+import {
+  GetReq,
+  PatchReq,
+  PostReq,
+} from "../../../HelperFunction/PostFunction";
+import { Link } from "react-router-dom";
 
 const ComunityList = () => {
   //   const [seach, setseach] = useState("");
+  const [CommunityName, setCommunityName] = useState("");
+  const [community, setcommunity] = useState([]);
   const [SeachList, setSeachList] = useState(false);
+  const [createPop, setcreatePop] = useState(false);
   const searchList = async (data) => {
     try {
       const res = await GetReq(`community/?name=${data}`);
@@ -16,6 +24,29 @@ const ComunityList = () => {
     }
   };
 
+  const joinCommunity = async (id) => {
+    console.log(id);
+    const res = await PatchReq(`community/?id=${id}`);
+    console.log(res);
+  };
+  const createCommunity = async () => {
+    if (CommunityName !== "") {
+      const res = await PostReq("community/", { name: CommunityName });
+      if (res) {
+        setCommunityName("");
+        setcreatePop(false);
+      }
+    }
+  };
+  useEffect(() => {
+    const getCommunity = async () => {
+      const res = await GetReq(`community/?my=1`);
+      setcommunity(res);
+      setSeachList(false);
+      console.log(res);
+    };
+    getCommunity();
+  }, [setSeachList, createPop]);
   return (
     <div className="flex flex-col py-3 px-3 z-20 min-h-screen">
       <div className="">
@@ -53,6 +84,7 @@ const ComunityList = () => {
                       {" "}
                       <h1 className="font-bold text-lg">{e.name} </h1>
                       <Button
+                        onClick={() => joinCommunity(e.id)}
                         variant="gradient"
                         color="light-blue"
                         className="rounded-full"
@@ -83,7 +115,10 @@ const ComunityList = () => {
               </svg>
             </div>
           </div>
-          <div className="bg-white px-3 py-1 rounded-xl items-center gap-2 flex font-semibold shadow">
+          <div
+            className="bg-white px-3 py-1 rounded-xl items-center gap-2 flex font-semibold shadow"
+            onClick={() => setcreatePop(true)}
+          >
             <svg
               viewBox="0 0 1024 1024"
               fill="currentColor"
@@ -96,15 +131,59 @@ const ComunityList = () => {
             <h1>Create community</h1>
           </div>
         </div>
+        {createPop ? (
+          <div className="absolute w-full h-screen flex justify-center items-center top-0 left-0 backdrop-blur-sm">
+            <div className="flex bg-white flex-col px-10 py-5 gap-3 rounded-xl">
+              <h1 className="font-semibold text-xl">
+                Create your own community
+              </h1>
+              <Input
+                type="text"
+                label="Community name"
+                value={CommunityName}
+                onChange={(e) => setCommunityName(e.target.value)}
+              />
+              <div className="flex gap-2">
+                {" "}
+                <Button
+                  variant="gradient"
+                  color="light-blue"
+                  onClick={createCommunity}
+                >
+                  {" "}
+                  Create{" "}
+                </Button>
+                <Button
+                  variant="gradient"
+                  color="red"
+                  onClick={() => setcreatePop(false)}
+                >
+                  {" "}
+                  Cancel{" "}
+                </Button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="flex flex-col gap-3 mt-8 px-14">
         <h1 className="font-bold text-2xl">Joined community</h1>
-        <div className="flex border-2 border-dashed border-blue-100 rounded-xl px-7 py-4">
-          <div className="">
-            <h1 className="font-bold text-xl">community name </h1>
-            <h1>100 members</h1>
-          </div>
-        </div>
+        {community ? (
+          community.map((e) => (
+            <Link to={`/home/community/${e.id}`}>
+              <div className="flex border-2 border-dashed border-blue-100 rounded-xl px-7 py-4">
+                <div className="">
+                  <h1 className="font-bold text-xl">{e.name} </h1>
+                  <h1>{e.people} members</h1>
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

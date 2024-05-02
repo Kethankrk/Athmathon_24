@@ -4,7 +4,7 @@ import Lottie from "lottie-react";
 import { Button, useSelect } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { GetReq } from "../../HelperFunction/PostFunction";
+import { GetReq, PatchReq } from "../../HelperFunction/PostFunction";
 
 import learning from "../../Components/lottie/learning.json";
 import relation from "../../Components/lottie/relation.json";
@@ -14,12 +14,16 @@ import career from "../../Components/lottie/career.json";
 import TaskCard from "./Components/TaskCard";
 import WeekTaskTable from "./Components/weekTaskTable";
 import { StickyNavbar } from "../../Components/Nav/Navbar";
+import Loading from "../../Components/Loading";
+import { useAtom } from "jotai";
+import { triggerAtom } from "../../GlobelState";
 
 const HomePage = () => {
+  const [trigger, setTrigger] = useAtom(triggerAtom);
   const [name, setname] = useState("");
   const [greetings, setgreeting] = useState("");
 
-  const [taskData, settaskData] = useState([]);
+  const [taskData, settaskData] = useState();
 
   useEffect(() => {
     const getuser = () => {
@@ -28,6 +32,7 @@ const HomePage = () => {
     };
     const FunctiongetTask = async () => {
       const data = await GetReq("task/");
+      // console.log(data);
       settaskData(data.not_done);
     };
     function getGreeting() {
@@ -54,7 +59,7 @@ const HomePage = () => {
     setgreeting(greeting);
     FunctiongetTask();
     getuser();
-  }, []);
+  }, [trigger]);
   console.log(name);
   return (
     <>
@@ -82,14 +87,18 @@ const HomePage = () => {
         </div>
         {/* Daily task section */}
         <div className="w-full flex flex-col bg-white rounded-xl shadow px-7 py-3 mt-5 min-h-80 justify-between">
-          <h1 className="font-bold text-xl">Today's objectives</h1>
+          <h1 className="font-bold te xt-xl">Today's objectives</h1>
 
           <div className="mt-9">
-            {taskData.map((e) => (
-              <>
-                <TaskCard task={e} />
-              </>
-            ))}
+            {taskData ? (
+              taskData.map((e) => (
+                <>
+                  <TaskCard task={e} />
+                </>
+              ))
+            ) : (
+              <Loading />
+            )}
           </div>
           <div className="flex flex-col items-center">
             {/* <h1 className="text-2xl font-bold text-gray-700">

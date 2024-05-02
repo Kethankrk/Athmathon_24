@@ -26,14 +26,14 @@ const Addemotion = () => {
   };
   const activeSelect = (curr) => {
     if (active) {
-      active.classList.remove("bg-blue-50");
+      active.classList.remove("bg-blue-500");
     }
-    curr.classList.add("bg-blue-50");
+    curr.classList.add("bg-blue-500");
     setactive(curr);
   };
   return (
     <div className="w-full min-h-screen bg-gradient-to-t from-cyan-200 to-slate-50 relative flex  flex-col justify-center items-center ">
-      <div className="flex flex-wrap z-10 gap-3 justify-center">
+      <div className="flex flex-wrap z-10 gap-3 justify-center ">
         <div className="" onClick={() => setemotion("H")}>
           <EmoCard anime={happy} name={"Happy"} setactive={activeSelect} />
         </div>
@@ -55,7 +55,7 @@ const Addemotion = () => {
         </div>
       </div>
       <div className=" z-10 mt-4">
-        <Button variant="gradient " color="light-blue" size="lg" onClick={Next}>
+        <Button variant="gradient" color="light-blue" size="lg" onClick={Next}>
           Next
         </Button>
       </div>

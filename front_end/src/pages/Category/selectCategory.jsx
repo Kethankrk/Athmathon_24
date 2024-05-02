@@ -18,7 +18,7 @@ const Select_Category = ({ change_screen, Setstate, task }) => {
   const navigate = useNavigate();
   const [activeCard, setactiveCard] = useState(null);
   const next = async () => {
-    if (cat != 0) {
+    if (cat !== 0) {
       navigate("/addtask");
     }
   };

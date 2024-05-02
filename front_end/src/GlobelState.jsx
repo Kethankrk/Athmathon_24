@@ -5,3 +5,5 @@ export const taskAtom = atom({
   category: 0,
   expire: 0,
 });
+
+export const triggerAtom = atom(true);
