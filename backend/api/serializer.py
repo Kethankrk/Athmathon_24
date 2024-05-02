@@ -43,13 +43,15 @@ class emotionSerializer(serializers.ModelSerializer):
 
 class taskSerializer(serializers.ModelSerializer):
     expired = serializers.SerializerMethodField("is_expired")
-    # expire_in_min = serializers.SerializerMethodField("expire_min")
     expire = serializers.CharField()
 
     def create(self, validated_data):
         expire_min = validated_data.pop('expire')
         validated_data['expire'] = self.get_expire(int(expire_min))
         return Task.objects.create(**validated_data)
+    
+
+        
     class Meta:
         model = Task
         fields = ['task','user', 'reward', 'done', 'created_at', 'expire', 'user', 'expired', 'category', 'id']
@@ -63,7 +65,16 @@ class taskSerializer(serializers.ModelSerializer):
 
 
 class communitySerializer(serializers.ModelSerializer):
-
+    people = serializers.SerializerMethodField("get_user_count")
     class Meta:
         model = Community
-        fields = ['users', 'name']
+        fields = ['users', 'name', 'id', 'people', 'total_points']
+        read_only_fields = ['id', 'people']
+    
+    def get_user_count(self, instance):
+        return instance.users.count()
+
+class userProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = "__all__"
