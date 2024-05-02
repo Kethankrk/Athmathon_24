@@ -52,9 +52,23 @@ class Emotions(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 class Task(models.Model):
+    categories = {
+        "L": "Learning",
+        "C": "Cleaning",
+        "H": "Fitness",
+        "R": "Relation",
+        "CA": "Career",
+
+    }
     task = models.CharField(max_length=255)
     reward = models.CharField(max_length=255)
     done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expire = models.DateTimeField()
     user = models.ForeignKey(User, related_name="task", on_delete=models.CASCADE)
+    category = models.CharField(max_length=10, choices=categories, default=categories['L'])
+
+
+
+class Community(models.Model):
+    users = models.ManyToManyField(User)
