@@ -96,9 +96,16 @@ class customCommunitySerializer(serializers.ModelSerializer):
         return instance.users.count()
 
     def filter_user(self, instance):
-        users = []
-        for user in instance.users.all():
-            users.append({"username": user.username, "image": user.profile.image, "points": user.profile.points, "id": user.id})
-        return users
+        users = instance.users.all()
+        sorted_users = sorted(users, key=lambda user: user.profile.points, reverse=True)
+        serialized_users = []
+        for user in sorted_users:
+            serialized_users.append({
+                "username": user.username,
+                "image": user.profile.image,
+                "points": user.profile.points,
+                "id": user.id
+            })
+        return serialized_users
 
         
