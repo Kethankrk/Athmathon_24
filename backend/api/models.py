@@ -34,6 +34,7 @@ class Profile(models.Model):
     image = models.URLField()
     github = models.URLField(null=True)
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.user.email
@@ -79,4 +80,5 @@ class Task(models.Model):
 
 class Community(models.Model):
     users = models.ManyToManyField(User)
-    
+    name = models.CharField(max_length=100, default="Community")
+    total_points = models.IntegerField(default=0)    

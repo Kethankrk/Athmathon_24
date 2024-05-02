@@ -1,5 +1,5 @@
 from rest_framework import serializers, validators
-from .models import User, Profile, Emotions, Task
+from .models import User, Profile, Emotions, Task, Community
 from django.db import transaction
 from django.utils import timezone
 from datetime import timedelta
@@ -52,8 +52,8 @@ class taskSerializer(serializers.ModelSerializer):
         return Task.objects.create(**validated_data)
     class Meta:
         model = Task
-        fields = ['task','user', 'reward', 'done', 'created_at', 'expire', 'user', 'expired', 'category']
-        read_only_fields = ['expired']
+        fields = ['task','user', 'reward', 'done', 'created_at', 'expire', 'user', 'expired', 'category', 'id']
+        read_only_fields = ['expired', 'id']
 
     def is_expired(self, task):
         return timezone.now() > task.expire
@@ -61,5 +61,9 @@ class taskSerializer(serializers.ModelSerializer):
     def get_expire(self, minutes):
         return timezone.now() + timedelta(minutes=minutes)
 
-    # def expire_min(self, task):
-    #     return  task.expire - datetime.now(timezone.utc)
+
+class communitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Community
+        fields = ['users', 'name']

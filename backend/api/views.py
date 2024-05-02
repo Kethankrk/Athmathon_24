@@ -71,11 +71,65 @@ class taskView(APIView):
             user_id = request.user.id
             category = request.query_params.get("category", None)
             if category:
-                taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(category=category)
+                done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(category=category, done=True)
+                not_done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(category=category, done=False)
             else:
-                taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.all()
-            serializer = serial.taskSerializer(taskes, many=True)
+                done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(done=True)
+                not_done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(done=False)
+            done_serializer = serial.taskSerializer(done_taskes, many=True)
+            not_done_serializer = serial.taskSerializer(not_done_taskes, many=True)
+            return Response({"done": done_serializer.data, "not_done": not_done_serializer.data})
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
+    
+    def patch(self, request, *args, **kwargs):
+        try:
+            task_id = request.data['id']
+            task = models.Task.objects.get(id=task_id)
+            task.done = True
+            task.save()
+            user_profile = request.user.profile
+            user_profile.points += 50
+            user_profile.save()
+            return Response({"message": "success"})
+        except models.Task.DoesNotExist as e:
+            print(e)
+            return Response({"error": "Task with id not found"}, status=404)
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
+
+
+class communityView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = {**request.data, "users": [request.user.id]}
+            serializer = serial.communitySerializer(data=data)
+            if not serializer.is_valid():
+                return Response({"error": "Bad request"}, status=400)
+            serializer.save()
             return Response(serializer.data)
+
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
+    
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            user_id = request.user.id
+            category = request.query_params.get("category", None)
+            if category:
+                done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(category=category, done=True)
+                not_done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(category=category, done=False)
+            else:
+                done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(done=True)
+                not_done_taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.filter(done=False)
+            done_serializer = serial.taskSerializer(done_taskes, many=True)
+            not_done_serializer = serial.taskSerializer(not_done_taskes, many=True)
+            return Response({"done": done_serializer.data, "not_done": not_done_serializer.data})
         except Exception as e:
             print(e)
             return Response({"error": "Server error"}, status=500)
