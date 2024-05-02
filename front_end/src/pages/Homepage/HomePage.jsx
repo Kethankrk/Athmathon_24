@@ -57,8 +57,7 @@ const HomePage = () => {
   }, []);
   console.log(name);
   return (
-    <div className="w-full min-h-screen bg-gradient-to-t from-cyan-200 to-slate-50 relative flex justify-center  flex-col">
-      <StickyNavbar />
+    <>
       <div className="flex  flex-col gap-2 z-10 px-24 py-10 w-full">
         <div className=" border-2 border-blue-100 px-7 py-3 border-dashed w-full rounded-xl    relative ">
           {/* <Lottie animationData={Wave_2} /> */}
@@ -70,7 +69,7 @@ const HomePage = () => {
             Start{" "}
             
           </Link> */}
-          <Link to="/addemo">
+          <Link to="addemo">
             <Button
               variant="gradient"
               color="light-blue"
@@ -112,8 +111,7 @@ const HomePage = () => {
         {/* weekly task section  */}
         <WeekTaskTable />
       </div>
-      <Lottie animationData={Wave} className=" absolute bottom-0 w-full " />
-    </div>
+    </>
   );
 };
 

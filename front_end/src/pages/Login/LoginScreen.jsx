@@ -16,6 +16,7 @@ import {
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { PostReq } from "../../HelperFunction/PostFunction";
+import axios from "axios";
 
 const LoginScreen = () => {
   return (
@@ -60,11 +61,14 @@ export function LoginCard() {
                 username: criderntial.name,
               };
 
-              const response = await PostReq("auth/", data);
-              // console.log(response);
+              const response = await axios.post(
+                "http://192.168.1.29:8000/auth/",
+                data
+              );
+              console.log(response.data);
               localStorage.setItem("user", criderntial.name);
               localStorage.setItem("image", criderntial.picture);
-              localStorage.setItem("token", response.access);
+              localStorage.setItem("token", response.data.access);
               navigate("/home");
             }}
             onError={() => {

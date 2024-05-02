@@ -11,6 +11,9 @@ import SelectReward from "./pages/SelectReward/SelectReward";
 import Addreward from "./pages/SelectReward/SelectReward";
 import Task from "./pages/Task/Task";
 import ComunityPage from "./pages/Comunity/comunityPage";
+import Layout from "./pages/layout";
+import CommunityLayout from "./pages/Comunity/CommunityLayout";
+import ComunityList from "./pages/Comunity/ComunityList/ComunityList";
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -23,27 +26,36 @@ export default function App() {
     },
     {
       path: "/home",
-      element: <HomePage />,
-    },
-    {
-      path: "/addemo",
-      element: <Addemotion />,
-    },
-    {
-      path: "/addcat",
-      element: <Task />,
-    },
-    {
-      path: "/addtask",
-      element: <AddTask />,
-    },
-    {
-      path: "/reward",
-      element: <Addreward />,
-    },
-    {
-      path: "/community",
-      element: <ComunityPage />,
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <HomePage />,
+        },
+        {
+          path: "addemo",
+          element: <Addemotion />,
+        },
+        {
+          path: "addcat",
+          element: <Task />,
+        },
+
+        {
+          path: "comunity",
+          element: <CommunityLayout />,
+          children: [
+            {
+              path: "",
+              element: <ComunityList />,
+            },
+            {
+              path: ":id",
+              element: <ComunityPage />,
+            },
+          ],
+        },
+      ],
     },
   ]);
   const client_id =

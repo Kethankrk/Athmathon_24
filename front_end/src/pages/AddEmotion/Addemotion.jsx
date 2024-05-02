@@ -21,7 +21,7 @@ const Addemotion = () => {
   const Next = async () => {
     const res = await PostReq("emotion/", { emotion: emotion });
     if (res) {
-      navigate("/addcat");
+      navigate("/home/addcat");
     }
   };
   const activeSelect = (curr) => {

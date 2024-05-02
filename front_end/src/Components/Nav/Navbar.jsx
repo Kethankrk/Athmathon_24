@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   MobileNav,
@@ -63,7 +63,13 @@ export function StickyNavbar() {
     </ul>
   );
   const [image, setimage] = useState("");
-
+  useEffect(() => {
+    const getuserimage = () => {
+      const data = localStorage.getItem("image");
+      setimage(data);
+    };
+    getuserimage();
+  }, []);
   return (
     <Navbar className="sticky top-0 z-40 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 ">
       <div className="flex items-center justify-between text-blue-gray-900">
@@ -75,7 +81,7 @@ export function StickyNavbar() {
           D3v.peace
         </Typography>
         <div className="">
-          <img src="" alt="" />
+          <img src={image} alt="test" className="w-12 rounded-full" />
         </div>
         {/* <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block">{navList}</div>
