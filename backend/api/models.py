@@ -44,10 +44,17 @@ class Emotions(models.Model):
         "H": "Happy",
         "S": "Sad",
         "A": "Anxious",
-        "E": "Energetic",
-        "T": "Tired",
-        "B": "Bored",
+        "ST": "Stress",
+        "D": "Dipressed"
     }
     emotion = models.CharField(max_length=9, choices=emotions)
     user = models.ForeignKey(User, related_name="emotions", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+class Task(models.Model):
+    task = models.CharField(max_length=255)
+    reward = models.CharField(max_length=255)
+    done = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expire = models.DateTimeField()
+    user = models.ForeignKey(User, related_name="task", on_delete=models.CASCADE)
