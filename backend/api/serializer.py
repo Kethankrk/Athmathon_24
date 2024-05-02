@@ -44,6 +44,7 @@ class emotionSerializer(serializers.ModelSerializer):
 class taskSerializer(serializers.ModelSerializer):
     expired = serializers.SerializerMethodField("is_expired")
     expire = serializers.CharField()
+    expire_min = serializers.SerializerMethodField("get_expire_min")
 
     def create(self, validated_data):
         expire_min = validated_data.pop('expire')
@@ -54,8 +55,13 @@ class taskSerializer(serializers.ModelSerializer):
         
     class Meta:
         model = Task
-        fields = ['task','user', 'reward', 'done', 'created_at', 'expire', 'user', 'expired', 'category', 'id']
+        fields = ['task','user', 'reward', 'done', 'created_at', 'expire', 'user', 'expired', 'category', 'id', "expire_min"]
         read_only_fields = ['expired', 'id']
+    
+    def get_expire_min(self, instance):
+        current_time = timezone.now()
+        time_diff = (abs(current_time - instance.expire)).total_seconds()
+        return time_diff // 60
 
     def is_expired(self, task):
         return timezone.now() > task.expire
