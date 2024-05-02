@@ -40,8 +40,20 @@ class emotionApiView(APIView):
             print(e)
             return Response({"error": "Server error"}, status=500)
     
+    def get(self, request, *args, **kwargs):
+        try:
+            emotions = request.user.emotions.all()
+            serializer = serial.emotionSerializer(emotions, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
+    
 class taskView(APIView):
-     def post(self, request, *args, **kwargs):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
         try:
             data = {**request.data, "user": request.user}
             serializer = serial.taskSerializer(data=data)
@@ -54,7 +66,7 @@ class taskView(APIView):
             print(e)
             return Response({"error": "Server error"}, status=500)
         
-     def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
             user_id = request.user.id
             taskes = models.User.objects.prefetch_related("task").get(id=user_id).task.all()
