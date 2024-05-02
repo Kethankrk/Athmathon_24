@@ -1,11 +1,11 @@
 import { Card, Typography } from "@material-tailwind/react";
 import React from "react";
 
-function TopThreeCard({ name, postion, score }) {
+function TopThreeCard({ name, postion, score, image }) {
   return (
     <div className="w-full">
       <Card
-        className="relative flex items-center py-8 gap-4 "
+        className="relative flex items-center py-8 gap-4 z-10"
         variant="gradient"
         color="blue"
       >
@@ -13,11 +13,7 @@ function TopThreeCard({ name, postion, score }) {
           {postion}
         </p>
         <div className="w-[50px] h-[50px]">
-          <img
-            src="https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&q=70&fm=webp"
-            alt=""
-            className="w-full rounded-full h-full"
-          />
+          <img src={image} alt="" className="w-full rounded-full h-full" />
         </div>
         <p className="w-full font-medium text-center">{name}</p>
         <Typography color="amber" className="font-bold">
