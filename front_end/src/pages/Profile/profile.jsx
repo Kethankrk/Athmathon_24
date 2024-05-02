@@ -8,6 +8,7 @@ function ProfilePage() {
   const [updateProfile, setUpdateProfile] = useState(false);
   const [githubUrl, setGithubUrl] = useState("https://");
   const [user, setUser] = useState({});
+  const [githubPorfile, setGithubProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const handleUpdateFunction = async () => {
@@ -21,9 +22,10 @@ function ProfilePage() {
       setUser(response);
       setLoading(false);
     })();
-  }, [handleUpdateFunction]);
+  }, []);
 
   if (loading) return <>loading</>;
+  console.log(user.github.split("/").pop());
   return (
     <>
       <div className=" min-h-screen w-full">
@@ -86,6 +88,16 @@ function ProfilePage() {
                 </button>
               )}
             </div>
+            {user.github && (
+              <div className="flex justify-center mt-20">
+                <img
+                  src={`https://github-readme-stats.vercel.app/api?username=${user.github
+                    .split("/")
+                    .pop()}&show_icons=true&locale=en`}
+                  alt="profile"
+                />
+              </div>
+            )}
           </Card>
         </div>
       </div>
