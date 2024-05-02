@@ -81,4 +81,7 @@ class Task(models.Model):
 class Community(models.Model):
     users = models.ManyToManyField(User, related_name="communities")
     name = models.CharField(max_length=100, default="Community")
-    total_points = models.IntegerField(default=0)    
+    total_points = models.IntegerField(default=0)
+
+    def __str__(self) -> str:
+        return self.name
