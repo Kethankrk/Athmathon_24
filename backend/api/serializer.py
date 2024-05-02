@@ -73,3 +73,8 @@ class communitySerializer(serializers.ModelSerializer):
     
     def get_user_count(self, instance):
         return instance.users.count()
+
+class userProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = "__all__"

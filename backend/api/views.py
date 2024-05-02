@@ -159,3 +159,36 @@ class communityView(APIView):
         except Exception as e:
             print(e)
             return Response({"error": "Server error"}, status=500)
+
+
+class userProfileView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            user_id = request.query_params.get('id')
+
+            user_profile = models.User.objects.prefetch_related('profile').get(id=user_id).profile
+
+            serializer = serial.userProfileSerializer(user_profile)
+            return Response(serializer.data)
+        
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
+
+
+    def patch(self, request, *args, **kwargs):
+        try:
+            user = request.user
+            data = request.data
+            instance = user.profile
+            serializer = serial.userProfileSerializer(instance=instance, data=data, partial=True)
+            if not serializer.is_valid():
+                return Response({"error": "Bad request"}, status=400)
+            serializer.save()
+            return Response({"message": "success"})
+        
+        except Exception as e:
+            print(e)
+            return Response({"error": "Server error"}, status=500)
+    
