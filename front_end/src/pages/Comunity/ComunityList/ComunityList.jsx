@@ -25,8 +25,10 @@ const ComunityList = () => {
             {SeachList ? (
               <div className="absolute top-0 w-full h-screen left-0 flex justify-center items-start pt-36">
                 <div className="flex flex-col bg-white w-1/2 items-center px-7 py-5 rounded-md">
-                  const [SeachList, setSeachList] = useState(false);
-                  <div className="flex justify-end w-full mb-4">
+                  <div
+                    className="flex justify-end w-full mb-4"
+                    onClick={() => setSeachList(false)}
+                  >
                     <svg
                       fill="none"
                       viewBox="0 0 24 24"

@@ -65,7 +65,7 @@ export function LoginCard() {
                 "http://192.168.1.29:8000/auth/",
                 data
               );
-              console.log(response.data);
+              // console.log(response.data);
               localStorage.setItem("user", criderntial.name);
               localStorage.setItem("image", criderntial.picture);
               localStorage.setItem("token", response.data.access);
