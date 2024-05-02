@@ -130,10 +130,15 @@ class communityView(APIView):
             user_id = request.user.id
             community_name = request.query_params.get("name")
             mine = request.query_params.get("my")
+            community_id = request.query_params.get("id")
             if community_name:
                 community = models.Community.objects.filter(name__contains=community_name)
             elif mine:
-                community = models.Community.objects.filter(users__id=user_id)
+                community = models.Community.objects.filter(users__id=user_id).order_by("total_points")
+            elif community_id:
+                community = models.Community.objects.get(id=community_id)
+                serializer = serial.customCommunitySerializer(community)
+                return Response(serializer.data)
             else:
                 community = models.Community.objects.all()
 

@@ -82,3 +82,23 @@ class userProfileSerializer(serializers.ModelSerializer):
     
     def get_username(self, profile):
         return profile.user.username
+    
+class customCommunitySerializer(serializers.ModelSerializer):
+    people = serializers.SerializerMethodField("get_user_count")
+    users = serializers.SerializerMethodField("filter_user")
+    class Meta:
+        model = Community
+        fields = ['users', 'name', 'id', 'people', 'total_points']
+        read_only_fields = ['id', 'people']
+        depth = 2
+    
+    def get_user_count(self, instance):
+        return instance.users.count()
+
+    def filter_user(self, instance):
+        users = []
+        for user in instance.users.all():
+            users.append({"username": user.username, "image": user.profile.image, "points": user.profile.points, "id": user.id})
+        return users
+
+        
