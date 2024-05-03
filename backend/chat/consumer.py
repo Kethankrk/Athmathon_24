@@ -1,6 +1,11 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 
+'''
+--------------------------------------------------
+            Chat canceled for no reason
+--------------------------------------------------
+'''
 class chatConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
