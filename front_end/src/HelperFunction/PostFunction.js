@@ -1,6 +1,6 @@
 import axios from "axios";
 const accessToken = localStorage.getItem("token");
-const hostUrl = "http://192.168.1.29:8000";
+const hostUrl = "http://localhost:8000";
 export const PostReq = async (url, data) => {
   try {
     const headers = {
