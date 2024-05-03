@@ -27,9 +27,9 @@ const Addemotion = () => {
   };
   const activeSelect = (curr) => {
     if (active) {
-      active.classList.remove("bg-blue-500");
+      active.classList.remove("bg-gray-200");
     }
-    curr.classList.add("bg-blue-500");
+    curr.classList.add("bg-gray-200");
     setactive(curr);
   };
   return (

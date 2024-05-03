@@ -25,9 +25,9 @@ const Select_Category = ({ change_screen, Setstate, task }) => {
 
   const activeSelect = (curr) => {
     if (activeCard) {
-      activeCard.classList.remove("bg-blue-50");
+      activeCard.classList.remove("bg-gray-200");
     }
-    curr.classList.add("bg-blue-50");
+    curr.classList.add("bg-gray-200");
     setactiveCard(curr);
   };
   console.log(activeCard);

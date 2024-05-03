@@ -1,14 +1,8 @@
 import React, { useEffect } from "react";
-import { GetReq } from "../../../HelperFunction/PostFunction";
+import { GetReq, PostReq } from "../../../HelperFunction/PostFunction";
+import axios from "axios";
 
-const WeekTaskTable = ({ task }) => {
-  useEffect(() => {
-    const getEmotion = async () => {
-      const res = await GetReq("emotion/");
-      console.log(res);
-    };
-    getEmotion();
-  }, []);
+const WeekTaskTable = ({ task, deleteFun }) => {
   return (
     <div className="w-full flex flex-col bg-white rounded-xl shadow px-7 py-3 mt-5 min-h-80 ">
       <h1 className="font-bold text-xl">Last logs</h1>
@@ -39,6 +33,7 @@ const WeekTaskTable = ({ task }) => {
             <th className="py-5 ">{e.reward}</th>
             <th className="py-5 flex justify-center items-end">
               <svg
+                onClick={() => deleteFun(e.id)}
                 id="Trash_Can_24"
                 width="24"
                 height="24"

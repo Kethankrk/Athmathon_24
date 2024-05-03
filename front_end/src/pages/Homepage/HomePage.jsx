@@ -4,7 +4,7 @@ import Lottie from "lottie-react";
 import { Button, useSelect } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { GetReq, PatchReq } from "../../HelperFunction/PostFunction";
+import { GetReq, PatchReq, PostReq } from "../../HelperFunction/PostFunction";
 
 import learning from "../../Components/lottie/learning.json";
 import relation from "../../Components/lottie/relation.json";
@@ -23,6 +23,11 @@ const HomePage = () => {
   const [name, setname] = useState("");
   const [greetings, setgreeting] = useState("");
 
+  const deleteHandle = async (id) => {
+    const res = await PostReq("delete-task/", { id });
+    console.log(res);
+    setTrigger(!trigger);
+  };
   const [taskData, settaskData] = useState([]);
   const [taskDataComplete, settaskDataComplete] = useState([]);
   const lastlog = localStorage.getItem("time");
@@ -90,13 +95,13 @@ const HomePage = () => {
       // Convert milliseconds to hours
       const timeDiffHours = timeDiffMilliseconds / (1000 * 60 * 60);
       if (timeDiffHours >= 4) {
-        navigate("addemo");
+        navigate("/home/addemo");
       } else {
-        navigate("addcat");
+        navigate("/home/addcat");
       }
+    } else {
+      navigate("/home/addemo");
     }
-
-    navigate("addemo");
   };
   return (
     <>
@@ -135,22 +140,24 @@ const HomePage = () => {
                   </>
                 ))
               ) : (
-                <Loading />
+                <div className="flex flex-col w-full">
+                  <h1 className="font-bold">It's empty , Add your emotion.</h1>
+
+                  <div className="">
+                    <Button
+                      onClick={navTask}
+                      variant="gradient"
+                      color="light-blue"
+                      size="sm"
+                      className="text-xl flex gap-2 items-center mt-3"
+                    >
+                      Start
+                    </Button>
+                  </div>
+                </div>
               )
             ) : (
-              <div className="flex flex-col w-full">
-                <h1 className="font-bold">It's empty , Add your emotion.</h1>
-                <Link to="addemo">
-                  <Button
-                    variant="gradient"
-                    color="light-blue"
-                    size="sm"
-                    className="text-xl flex gap-2 items-center mt-3"
-                  >
-                    Start
-                  </Button>
-                </Link>
-              </div>
+              <Loading />
             )}
           </div>
           <div className="flex flex-col items-center">
@@ -171,7 +178,7 @@ const HomePage = () => {
           </div>
         </div>
         {/* weekly task section  */}
-        <WeekTaskTable task={taskDataComplete} />
+        <WeekTaskTable task={taskDataComplete} deleteFun={deleteHandle} />
       </div>
     </>
   );

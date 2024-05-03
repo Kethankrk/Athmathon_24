@@ -14,6 +14,7 @@ const ComunityList = () => {
   const [community, setcommunity] = useState([]);
   const [SeachList, setSeachList] = useState(false);
   const [createPop, setcreatePop] = useState(false);
+  const [trigger, Settrigger] = useState(true);
   const searchList = async (data) => {
     try {
       const res = await GetReq(`community/?name=${data}`);
@@ -28,6 +29,7 @@ const ComunityList = () => {
     console.log(id);
     const res = await PatchReq(`community/?id=${id}`);
     console.log(res);
+    Settrigger(!trigger);
   };
   const createCommunity = async () => {
     if (CommunityName !== "") {
@@ -46,7 +48,7 @@ const ComunityList = () => {
       console.log(res);
     };
     getCommunity();
-  }, [setSeachList, createPop]);
+  }, [setSeachList, createPop, trigger]);
   return (
     <div className="flex flex-col py-3 px-3 z-20 min-h-screen">
       <div className="">

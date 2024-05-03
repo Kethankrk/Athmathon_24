@@ -3,6 +3,7 @@ import { Button, Card, Input, Typography } from "@material-tailwind/react";
 
 import { GetReq, PatchReq } from "../../HelperFunction/PostFunction";
 import { useNavigate, useParams } from "react-router-dom";
+import ChartComponent from "../ChartComponent";
 
 function ProfilePage() {
   const image = localStorage.getItem("image");
@@ -14,6 +15,7 @@ function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [emo, setemo] = useState([]);
   const handleUpdateFunction = async () => {
     if (!githubUrl) return;
     const response = await PatchReq("profile/", { github: githubUrl });
@@ -21,6 +23,11 @@ function ProfilePage() {
     settrigger(!trigger);
   };
   useEffect(() => {
+    const getEmo = async () => {
+      const data = await GetReq("emotion/");
+      console.log(data);
+      setemo(data);
+    };
     (async () => {
       let response;
       if (id) {
@@ -31,6 +38,7 @@ function ProfilePage() {
       setUser(response);
       setLoading(false);
     })();
+    getEmo();
   }, [trigger]);
 
   if (loading) return <>loading</>;
@@ -58,6 +66,7 @@ function ProfilePage() {
               </Typography>
               <p>{user.points}</p>
             </div>
+            {!id && <ChartComponent data={emo} />}
             <div className="mb-5">
               <Typography className="font-semibold text-lg">Github</Typography>
               {updateProfile ? (
