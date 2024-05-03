@@ -117,7 +117,9 @@ class communityView(APIView):
             serializer = serial.communitySerializer(data=data)
             if not serializer.is_valid():
                 return Response({"error": "Bad request"}, status=400)
-            serializer.save()
+            instance = serializer.save()
+            instance.total_points = request.user.profile.points
+            instance.save()
             return Response(serializer.data)
 
         except Exception as e:
@@ -157,6 +159,7 @@ class communityView(APIView):
                 return Response({"error": "query param community not found"}, status=400)
             community = models.Community.objects.get(id=community_id)
             community.users.add(user)
+            community.total_points += user.profile.points
             community.save()
 
             return Response({"message": "success"})
