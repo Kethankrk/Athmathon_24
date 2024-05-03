@@ -13,10 +13,10 @@ import {
 
 const ChartComponent = ({ data }) => {
   const emotionValues = {
-    H: 1,
-    D: 3,
+    H: 4,
+    D: 1,
     ST: 2,
-    A: 4,
+    A: 3,
   };
   const dates = data.map((item) => new Date(item.date).toLocaleTimeString());
   const emotions = data.map((item) => emotionValues[item.emotion]);

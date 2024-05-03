@@ -64,6 +64,7 @@ const ComunityList = () => {
                     onClick={() => setSeachList(false)}
                   >
                     <svg
+                      className="hover:bg-gray-50"
                       fill="none"
                       viewBox="0 0 24 24"
                       height="1.5em"
@@ -82,7 +83,7 @@ const ComunityList = () => {
                     </svg>
                   </div>
                   {SeachList.map((e) => (
-                    <div className="flex justify-between w-full border-2 border-dashed border-blue-100 px-4 py-2 rounded-lg items-center">
+                    <div className="flex justify-between w-full border-2 border-dashed border-blue-100 px-4 py-2 rounded-lg items-center mb-2">
                       {" "}
                       <h1 className="font-bold text-lg">{e.name} </h1>
                       <Button
@@ -175,7 +176,7 @@ const ComunityList = () => {
         {community ? (
           community.map((e) => (
             <Link to={`/home/community/${e.id}`}>
-              <div className="flex border-2 border-dashed border-blue-100 rounded-xl px-7 py-4">
+              <div className="flex border-2 border-dashed border-blue-100 rounded-xl px-7 py-4 hover:bg-blue-50     ">
                 <div className="">
                   <h1 className="font-bold text-xl">{e.name} </h1>
                   <h1>{e.people} members</h1>

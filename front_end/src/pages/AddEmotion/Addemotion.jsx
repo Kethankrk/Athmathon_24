@@ -27,13 +27,16 @@ const Addemotion = () => {
   };
   const activeSelect = (curr) => {
     if (active) {
-      active.classList.remove("bg-gray-200");
+      active.classList.remove("border-2");
     }
-    curr.classList.add("bg-gray-200");
+    curr.classList.add("border-2");
     setactive(curr);
   };
   return (
-    <div className="w-full min-h-screen bg-gradient-to-t from-cyan-200 to-slate-50 relative flex  flex-col justify-center items-center ">
+    <div className="w-full min-h-screen bg-gradient-to-t  from-cyan-200 to-slate-50 relative flex  flex-col mt-48 items-center ">
+      <h1 className=" font-bold text-3xl mb-7 text-left">
+        Select your emotion
+      </h1>
       <div className="flex flex-wrap z-10 gap-3 justify-center ">
         <div className="" onClick={() => setemotion("H")}>
           <EmoCard anime={happy} name={"Happy"} setactive={activeSelect} />

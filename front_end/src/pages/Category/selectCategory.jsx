@@ -25,73 +25,82 @@ const Select_Category = ({ change_screen, Setstate, task }) => {
 
   const activeSelect = (curr) => {
     if (activeCard) {
-      activeCard.classList.remove("bg-gray-200");
+      activeCard.classList.remove("border-2");
     }
-    curr.classList.add("bg-gray-200");
+    curr.classList.add("border-2");
     setactiveCard(curr);
   };
   console.log(activeCard);
   return (
     <>
-      <div className="flex flex-wrap z-10 gap-3 justify-center">
-        <div
-          className=""
-          onClick={() => Setstate((prev) => ({ ...prev, category: "L" }))}
-        >
-          <EmoCard
-            anime={learning}
-            name={"Learning"}
-            setactive={activeSelect}
-          />
+      <div className="flex flex-col items-center">
+        <h1 className=" font-bold text-3xl mb-7 text-left">
+          Select the category.
+        </h1>
+        <div className="flex flex-wrap z-10 gap-3 justify-center">
+          <div
+            className=""
+            onClick={() => Setstate((prev) => ({ ...prev, category: "L" }))}
+          >
+            <EmoCard
+              anime={learning}
+              name={"Learning"}
+              setactive={activeSelect}
+            />
+          </div>
+          <div
+            className=""
+            onClick={() => Setstate((prev) => ({ ...prev, category: "C" }))}
+          >
+            <EmoCard
+              anime={cleaning}
+              name={"Cleaning"}
+              setactive={activeSelect}
+            />
+          </div>
+          <div
+            className=""
+            onClick={() => Setstate((prev) => ({ ...prev, category: "H" }))}
+          >
+            <EmoCard
+              anime={fitness}
+              name={"Fitness"}
+              setactive={activeSelect}
+            />
+          </div>
+          <div
+            className=""
+            onClick={() => Setstate((prev) => ({ ...prev, category: "R" }))}
+          >
+            <EmoCard
+              anime={relation}
+              name={"Relation"}
+              setactive={activeSelect}
+            />
+          </div>
+          <div
+            className=""
+            onClick={() => Setstate((prev) => ({ ...prev, category: "CA" }))}
+          >
+            <EmoCard anime={career} name={"Career"} setactive={activeSelect} />
+          </div>
         </div>
-        <div
-          className=""
-          onClick={() => Setstate((prev) => ({ ...prev, category: "C" }))}
-        >
-          <EmoCard
-            anime={cleaning}
-            name={"Cleaning"}
-            setactive={activeSelect}
-          />
+        <div className=" z-10 mt-4">
+          <Button
+            variant="gradient "
+            color="light-blue"
+            size="lg"
+            onClick={() => {
+              if (task.category) {
+                change_screen("addtask");
+              } else {
+                console.log("None");
+              }
+            }}
+          >
+            Next
+          </Button>
         </div>
-        <div
-          className=""
-          onClick={() => Setstate((prev) => ({ ...prev, category: "H" }))}
-        >
-          <EmoCard anime={fitness} name={"Fitness"} setactive={activeSelect} />
-        </div>
-        <div
-          className=""
-          onClick={() => Setstate((prev) => ({ ...prev, category: "R" }))}
-        >
-          <EmoCard
-            anime={relation}
-            name={"Relation"}
-            setactive={activeSelect}
-          />
-        </div>
-        <div
-          className=""
-          onClick={() => Setstate((prev) => ({ ...prev, category: "CA" }))}
-        >
-          <EmoCard anime={career} name={"Career"} setactive={activeSelect} />
-        </div>
-      </div>
-      <div className=" z-10 mt-4">
-        <Button
-          variant="gradient "
-          color="light-blue"
-          size="lg"
-          onClick={() => {
-            if (task.category) {
-              change_screen("addtask");
-            } else {
-              console.log("None");
-            }
-          }}
-        >
-          Next
-        </Button>
       </div>
     </>
   );

@@ -6,7 +6,7 @@ const EmoCard = ({ anime, name, setactive }) => {
   return (
     <div>
       <div
-        className="flex bg-white justify-center items-center w-64 h-64 flex-col rounded-xl "
+        className="flex bg-white justify-center items-center w-64 h-64 flex-col rounded-xl border-black "
         ref={active}
         onClick={() => setactive(active.current)}
       >

@@ -11,6 +11,7 @@ import relation from "../../Components/lottie/relation.json";
 import fitness from "../../Components/lottie/fitness.json";
 import cleaning from "../../Components/lottie/cleaning.json";
 import career from "../../Components/lottie/career.json";
+import funny from "../../Components/lottie/funny.json";
 import TaskCard from "./Components/TaskCard";
 import WeekTaskTable from "./Components/weekTaskTable";
 import { StickyNavbar } from "../../Components/Nav/Navbar";
@@ -129,7 +130,7 @@ const HomePage = () => {
         </div>
         {/* Daily task section */}
         <div className="w-full flex flex-col bg-white rounded-xl shadow px-7 py-3 mt-5 min-h-80 justify-between">
-          <h1 className="font-bold te xt-xl">Today's objectives</h1>
+          <h1 className="font-bold text-xl">Today's objectives</h1>
 
           <div className="mt-9">
             {taskData ? (
@@ -141,6 +142,7 @@ const HomePage = () => {
                 ))
               ) : (
                 <div className="flex flex-col w-full">
+                  <Lottie animationData={funny} className="w-1/4" />
                   <h1 className="font-bold">It's empty , Add your emotion.</h1>
 
                   <div className="">

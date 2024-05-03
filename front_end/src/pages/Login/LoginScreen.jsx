@@ -71,7 +71,7 @@ export function LoginCard() {
               };
 
               const response = await axios.post(
-                "http://192.168.208.190:8000/auth/",
+                "http://192.168.1.29:8000/auth/",
                 data
               );
               // console.log(response.data);
