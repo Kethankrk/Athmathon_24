@@ -1,10 +1,10 @@
 import axios from "axios";
 const accessToken = localStorage.getItem("token");
-const hostUrl = "http://localhost:8000";
+const hostUrl = process.env.REACT_APP_API_URL;
+console.log(`url: ${hostUrl}`);
 export const PostReq = async (url, data) => {
   try {
     const headers = {
-      // "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     };
     const response = (await axios.post(`${hostUrl}/${url}`, data, { headers }))
