@@ -69,11 +69,8 @@ export function LoginCard() {
                 image: criderntial.picture,
                 username: criderntial.name,
               };
-
-              const response = await axios.post(
-                "http://localhost:8000/auth/",
-                data
-              );
+              const apiUrl = process.env.REACT_APP_API_URL;
+              const response = await axios.post(`${apiUrl}/auth/`, data);
               // console.log(response.data);
               localStorage.setItem("user", criderntial.name);
               localStorage.setItem("image", criderntial.picture);
